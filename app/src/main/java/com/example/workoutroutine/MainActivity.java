@@ -5,31 +5,34 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
 
-    RecyclerView recyclerView;
-    Adapter adapter;
+    private Button routineButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        //상하 스크롤
+        routineButton = (Button)findViewById(R.id.button);
+        routineButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
 
-        adapter = new Adapter();
-        for(int i = 0; i< 100; i++){
-            String str= i+"번째 아이템";
-            adapter.setArrayData(str);
-        }
-
-        recyclerView.setAdapter(adapter);
+                Intent newRoutine = new Intent(getApplicationContext(), RoutineList.class);
+                startActivity(newRoutine);
+            }
+        });
     }
+
+
 
 }
