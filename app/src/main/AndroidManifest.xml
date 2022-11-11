@@ -26,6 +26,7 @@
                 android:value="" />
         </activity>
 
+        <activity android:name =".RoutineSelect"/>
         <activity android:name =".RoutineList"/>
     </application>
 

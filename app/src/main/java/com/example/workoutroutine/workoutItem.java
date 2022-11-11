@@ -11,4 +11,11 @@ public class workoutItem {
         this.image = image;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getImage() {
+        return image;
+    }
 }
