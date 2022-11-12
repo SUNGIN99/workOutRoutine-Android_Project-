@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity{
         newRoutine.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent newRoutine = new Intent(getApplicationContext(), RoutineList.class);
+                Intent newRoutine = new Intent(getApplicationContext(), NewRoutine_Activity_list.class);
                 startActivity(newRoutine);
             }
         });

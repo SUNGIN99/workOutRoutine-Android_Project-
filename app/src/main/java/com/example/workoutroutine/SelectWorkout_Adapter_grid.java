@@ -1,40 +1,39 @@
 package com.example.workoutroutine;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ListAdapterGrid extends RecyclerView.Adapter<ListAdapterGrid.MyViewHolder> {
+public class SelectWorkout_Adapter_grid extends RecyclerView.Adapter<SelectWorkout_Adapter_grid.select_workout_ViewHolder> {
 
     Context context;
-    ArrayList<workoutItem> list;
+    ArrayList<Select_workoutItem> list;
 
-    public ListAdapterGrid(Context context, ArrayList<workoutItem> list){
+    public SelectWorkout_Adapter_grid(Context context, ArrayList<Select_workoutItem> list){
         super();
         this.context= context;
         this.list = list;
     }
 
+    // 뷰 홀더 바인딩하기
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position){
+    public void onBindViewHolder(select_workout_ViewHolder holder, int position){
         holder.image.setImageResource(list.get(position).image);
         holder.name.setText(list.get(position).name);
     }
 
+    // 뷰홀더를 레이아웃에 띄워서 하나의 뷰로 띄우고 onBindViewHolder에서 값을 채워서 사용
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_grid_item, parent, false);
-        return new MyViewHolder(view);
+    public select_workout_ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.select_workout_item, parent, false);
+        return new select_workout_ViewHolder(view);
     }
 
     @Override
@@ -54,12 +53,12 @@ public class ListAdapterGrid extends RecyclerView.Adapter<ListAdapterGrid.MyView
         this.imageBtnClick = listener;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class select_workout_ViewHolder extends RecyclerView.ViewHolder{
 
         ImageButton image;
         TextView name;
 
-        public MyViewHolder(View itemView) {
+        public select_workout_ViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageButton);
             name = itemView.findViewById(R.id.workoutName);

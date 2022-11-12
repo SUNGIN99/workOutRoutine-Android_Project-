@@ -26,8 +26,8 @@
                 android:value="" />
         </activity>
 
-        <activity android:name =".RoutineSelect"/>
-        <activity android:name =".RoutineList"/>
+        <activity android:name =".SelectWorkout_Activity_grid"/>
+        <activity android:name =".NewRoutine_Activity_list"/>
     </application>
 
 </manifest>
