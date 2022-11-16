@@ -1,5 +1,7 @@
 package com.example.workoutroutine;
 
+import androidx.room.ColumnInfo;
+
 import java.io.Serializable;
 
 public class NewRoutineItem implements Serializable {

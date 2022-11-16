@@ -31,7 +31,7 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
     private NewRoutine_Obj newNewRoutineObj;
 
     // <22.11.12-2> 새로운 루틴 운동목록 리사이클러뷰
-    RecyclerView newRoutine;
+    RecyclerView routineRecycler;
     NewRoutine_Adapter_list newRoutineAdapter;
     LinearLayoutManager listLayoutManager_newRoutine;
     // adapter에 바인드할 리스트 = selected;
@@ -43,11 +43,11 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
         setContentView(R.layout.newroutine_selected_recycler);
 
         // <22.11.12 - 2> 선택한 운동을 리스트 리싸이클러뷰로
-        newRoutine = findViewById(R.id.newRoutineRecycler);
+        routineRecycler = findViewById(R.id.newRoutineRecycler);
         listLayoutManager_newRoutine = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         
         // <22.11.12-2> 루틴 타이틀 에디트 텍스트
-        routineEditText = (EditText)findViewById(R.id.routineTitle);
+        routineEditText = (EditText)findViewById(R.id.routineTitle2);
         
         // <22.11.12-2> 루틴 생성 완료 버튼
         makeButton = (Button)findViewById(R.id.complete);
@@ -55,23 +55,27 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 routineTitle = String.valueOf(routineEditText.getText().toString());
-                routinedate = newRoutineDate();
 
-                // <22.11.12-2> 새 루틴 객체를 생성(루틴 제목, 날짜, 운동목록)
-                newNewRoutineObj = new NewRoutine_Obj(routineTitle, routinedate, selected);
+                if (!routineTitle.equals("")){
+                    routinedate = newRoutineDate();
 
-                Log.d("Title" , routineTitle);
-                for (NewRoutineItem o : selected){
-                    Log.d(Integer.toString(o.getNumber()),
-                            "[" + o.getName() + ": " + o.getReps() + " reps " + o.getSets() + " sets ]" );
+                    // <22.11.12-2> 새 루틴 객체를 생성(루틴 제목, 날짜, 운동목록)
+                    newNewRoutineObj = new NewRoutine_Obj(routineTitle, routinedate, selected);
+
+                    Log.d("Title" , routineTitle);
+                    for (NewRoutineItem o : selected){
+                        Log.d(Integer.toString(o.getNumber()),
+                                "[" + o.getName() + ": " + o.getReps() + " reps " + o.getSets() + " sets ]" );
+                    }
+
+                    Intent returnNewRoutine = new Intent();
+                    returnNewRoutine.putExtra("newRoutine", newNewRoutineObj);
+                    setResult(Activity.RESULT_OK, returnNewRoutine);
+
+                    // 생성 루틴 결과반환
+                    Toast.makeText(getApplicationContext(), "루틴 생성완료", Toast.LENGTH_SHORT);
+                    finish();
                 }
-
-                Intent returnNewRoutine = new Intent();
-                returnNewRoutine.putExtra("newRoutine", newNewRoutineObj);
-                setResult(Activity.RESULT_OK, returnNewRoutine);
-
-                Toast.makeText(getApplicationContext(), "루틴 생성완료", Toast.LENGTH_SHORT);
-                //finish();
             }
         });
 
@@ -99,8 +103,8 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
 
                 if(selected != null){
                     newRoutineAdapter = new NewRoutine_Adapter_list(getApplicationContext(), selected);
-                    newRoutine.setLayoutManager(listLayoutManager_newRoutine);
-                    newRoutine.setAdapter(newRoutineAdapter);
+                    routineRecycler.setLayoutManager(listLayoutManager_newRoutine);
+                    routineRecycler.setAdapter(newRoutineAdapter);
                 }
             }
         }

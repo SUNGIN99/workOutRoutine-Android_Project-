@@ -1,5 +1,9 @@
 package com.example.workoutroutine;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.TypeConverters;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -7,7 +11,7 @@ public class NewRoutine_Obj implements Serializable {
 
     private String routineName;
     private String routinedate;
-    private ArrayList<NewRoutineItem> selected;
+    @Embedded private ArrayList<NewRoutineItem> selected;
 
     public NewRoutine_Obj(String routineName, String routinedate, ArrayList<NewRoutineItem> selected) {
         this.routineName = routineName;

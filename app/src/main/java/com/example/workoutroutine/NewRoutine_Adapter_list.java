@@ -81,7 +81,7 @@ public class NewRoutine_Adapter_list extends RecyclerView.Adapter<NewRoutine_Ada
 
         public newRoutine_ViewHolder(View itemView) {
             super(itemView);
-            id = itemView.findViewById(R.id.ID);
+            id = itemView.findViewById(R.id.ID2);
             name = itemView.findViewById(R.id.listworkoutname);
             reps = itemView.findViewById(R.id.Reps);
             sets = itemView.findViewById(R.id.Sets);
