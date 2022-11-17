@@ -4,6 +4,7 @@ public class Select_workoutItem {
 
     String name;
     int image;
+    int clicked;
 
     public Select_workoutItem(String name, int image){
         super();

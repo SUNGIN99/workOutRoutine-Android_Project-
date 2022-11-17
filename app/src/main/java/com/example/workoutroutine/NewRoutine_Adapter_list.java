@@ -3,6 +3,7 @@ package com.example.workoutroutine;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workoutroutine.model.WorkoutItem_Obj;
+
 import java.util.ArrayList;
 
 public class NewRoutine_Adapter_list extends RecyclerView.Adapter<NewRoutine_Adapter_list.newRoutine_ViewHolder>{
     Context context;
-    ArrayList<NewRoutineItem> selected;
+    ArrayList<WorkoutItem_Obj> selected;
 
-    public NewRoutine_Adapter_list(Context context, ArrayList<NewRoutineItem> selected) {
+    public NewRoutine_Adapter_list(Context context, ArrayList<WorkoutItem_Obj> selected) {
         super();
         this.context = context;
         this.selected = selected;
@@ -28,9 +31,8 @@ public class NewRoutine_Adapter_list extends RecyclerView.Adapter<NewRoutine_Ada
         // <22.11.12-2> selected안에 들어있는 newRoutineItem들을 (순서, 이름, reps, sets)를 모두 설정해줌
         // EditText의 값이 변경되면 activity에서도 계속 사용해야 하기 때문에 addTextChangedListener를 이용해 텍스트 변화 리스너 이벤트 추가
         holder.id.setText(Integer.toString(position+1));
-        selected.get(position).setNumber(position+1);
-
-        holder.name.setText(selected.get(position).getName());
+        Log.d("workoutId:", Integer.toString(selected.get(position).getNumber()));
+        holder.name.setText(selected.get(position).getWorkoutName());
 
         holder.reps.addTextChangedListener(new TextWatcher() {
             @Override

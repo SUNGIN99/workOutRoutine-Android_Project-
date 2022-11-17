@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.workoutroutine.model.WorkoutItem_Obj;
+import com.example.workoutroutine.model.NewRoutine_Obj;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,10 +28,10 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
 
     // <22.11.12> 화면에 띄울 루틴 목록(RoutineList 인텐트에서 고른 메뉴들을 전부다 저장함 -> 어뎁터로 사용해서 바인드 시켜서 루틴생성할 예정)
     // <22.11.12-2 > 해당운동의 횟수와 세트 수를 그대로 담아서 이동전환하기 위해서 newRoutineItem 객체로 ArrayList를 만듬
-    private ArrayList<NewRoutineItem> selected = null;
+    private ArrayList<WorkoutItem_Obj> selected;
 
     // <22.11.12-2>
-    private NewRoutine_Obj newNewRoutineObj;
+    public NewRoutine_Obj newNewRoutineObj;
 
     // <22.11.12-2> 새로운 루틴 운동목록 리사이클러뷰
     RecyclerView routineRecycler;
@@ -60,12 +63,12 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
                     routinedate = newRoutineDate();
 
                     // <22.11.12-2> 새 루틴 객체를 생성(루틴 제목, 날짜, 운동목록)
-                    newNewRoutineObj = new NewRoutine_Obj(routineTitle, routinedate, selected);
+                    newNewRoutineObj = new NewRoutine_Obj(routineTitle, routinedate);
 
                     Log.d("Title" , routineTitle);
-                    for (NewRoutineItem o : selected){
+                    for (WorkoutItem_Obj o : selected){
                         Log.d(Integer.toString(o.getNumber()),
-                                "[" + o.getName() + ": " + o.getReps() + " reps " + o.getSets() + " sets ]" );
+                                "[" + o.getWorkoutName() + ": " + o.getReps() + " reps " + o.getSets() + " sets ]" );
                     }
 
                     Intent returnNewRoutine = new Intent();
@@ -96,9 +99,9 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
 
         if(requestCode == 100){
             if(resultCode == Activity.RESULT_OK){
-                selected = (ArrayList<NewRoutineItem>) data.getSerializableExtra("selected"); // <22.11.12> 고른 루틴 결과를 리스트로 반환 받아서 저장
-                for (NewRoutineItem s : selected){
-                    Log.d("selected_routine:", s.getName());
+                selected = (ArrayList<WorkoutItem_Obj>) data.getSerializableExtra("selected"); // <22.11.12> 고른 루틴 결과를 리스트로 반환 받아서 저장
+                for (WorkoutItem_Obj s : selected){
+                    Log.d("selected_routine:", s.getWorkoutName());
                 }
 
                 if(selected != null){

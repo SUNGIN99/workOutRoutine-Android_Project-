@@ -11,16 +11,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.workoutroutine.model.NewRoutine_Obj;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
     private Button newRoutine;
-    private List<RoutineData> showRoutines = new ArrayList<>();
+    private ArrayList<NewRoutine_Obj> showRoutines = new ArrayList<>();
     private NewRoutine_Obj newRoutineObj;
 
     RecyclerView routineRecycler;
-    RoutineRoomDB routinedb;
     Routine_Adapter routineAdapter;
 
     @Override
@@ -28,12 +28,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        routinedb = RoutineRoomDB.getInstance(this);
-        showRoutines = routinedb.routineDao().getAll();
-
         Log.d("start", String.valueOf(showRoutines));
 
-        routineRecycler = findViewById(R.id.routines);
+        routineRecycler = (RecyclerView)findViewById(R.id.routines);
 
         routineRecycler.setLayoutManager(new LinearLayoutManager(this));
         routineAdapter = new Routine_Adapter(getApplicationContext(), showRoutines);
@@ -56,24 +53,16 @@ public class MainActivity extends AppCompatActivity{
         if (requestCode == 200) {
             if(resultCode == AppCompatActivity.RESULT_OK){
                 newRoutineObj = (NewRoutine_Obj) data.getSerializableExtra("newRoutine");
-                String routineName = newRoutineObj.getRoutineName();
-                String routineDate = newRoutineObj.getRoutinedate();
+                String routineName = newRoutineObj.getRoutineTitle();
+                String routineDate = newRoutineObj.getRoutineDate();
 
-                Log.d("newroutine Title: ", routineName);
-                for (NewRoutineItem i : newRoutineObj.getSelected()){
-                    Log.d("obj. selected:", i.getName());
-                }
+                Log.d("newroutine Title: ", routineName + " (" + routineDate +")");
 
-                RoutineData routine_data = new RoutineData();
-                routine_data.setRoutinetitle(routineName);
-                routine_data.setCreatedate(routineDate);
-                routine_data.setNewroutine(newRoutineObj);
+                showRoutines.add(newRoutineObj);
+                Log.d("showroutines", String.valueOf(showRoutines));
 
-                routinedb.routineDao().insert(routine_data);
-                showRoutines.clear();
-                showRoutines.addAll(routinedb.routineDao().getAll());
-                //Log.d("fuck", String.valueOf(showRoutines));
-                routineAdapter.notifyDataSetChanged();
+                routineAdapter = new Routine_Adapter(getApplicationContext(), showRoutines);
+                routineRecycler.setAdapter(routineAdapter);
             }
         }
     }

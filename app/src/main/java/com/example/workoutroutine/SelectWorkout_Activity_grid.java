@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workoutroutine.model.WorkoutItem_Obj;
+
 import java.util.ArrayList;
 
 public class SelectWorkout_Activity_grid extends AppCompatActivity {
@@ -78,7 +80,7 @@ public class SelectWorkout_Activity_grid extends AppCompatActivity {
     }};
 
     // <22.11.12-2 > 해당운동의 횟수와 세트 수를 그대로 담아서 이동전환하기 위해서 newRoutineItem 객체로 ArrayList를 만듬
-    ArrayList<NewRoutineItem> selected = new ArrayList<>();
+    ArrayList<WorkoutItem_Obj> selected = new ArrayList<>();
     Button selectComplete;
 
     @Override
@@ -95,7 +97,7 @@ public class SelectWorkout_Activity_grid extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int pos) {
                 TextView name = (TextView)v;
-                selected.add(new NewRoutineItem((String) name.getText(), 0, 0));
+                selected.add(new WorkoutItem_Obj((String) name.getText(), 0, 0));
                 Log.d("selected_routine:", String.valueOf(selected));
                 Toast.makeText(getApplicationContext(), name.getText(), Toast.LENGTH_SHORT).show();
             }

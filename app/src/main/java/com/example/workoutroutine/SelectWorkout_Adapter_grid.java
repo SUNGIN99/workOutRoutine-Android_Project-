@@ -9,12 +9,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workoutroutine.database.RoutineDB;
+
 import java.util.ArrayList;
 
 public class SelectWorkout_Adapter_grid extends RecyclerView.Adapter<SelectWorkout_Adapter_grid.select_workout_ViewHolder> {
 
     Context context;
     ArrayList<Select_workoutItem> list;
+    private RoutineDB routineDB;
 
     public SelectWorkout_Adapter_grid(Context context, ArrayList<Select_workoutItem> list){
         super();

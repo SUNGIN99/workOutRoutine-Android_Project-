@@ -1,0 +1,17 @@
+package com.example.workoutroutine.dao;
+
+import androidx.room.Dao;
+import androidx.room.Query;
+import androidx.room.Transaction;
+
+import com.example.workoutroutine.model.RoutineInfo_ItemLists;
+
+import java.util.List;
+
+@Dao
+public interface RoutineInfo_DAO {
+    @Transaction
+    @Query("SELECT * FROM Routine ORDER BY id ASC")
+    List<RoutineInfo_ItemLists> getRoutineInfo();
+
+}
