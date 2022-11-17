@@ -2,6 +2,7 @@ package com.example.workoutroutine;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
@@ -49,6 +51,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
 
                 final int sID = mainData.getId();
                 String sText = mainData.getText();
+                ArrayList<String> sSubList = mainData.getStringList();
+                Log.d("adpater sList:", String.valueOf(sSubList));
+
 
                 // dialog -------------------------------
                 final Dialog dialog = new Dialog(context);
@@ -60,8 +65,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
                 dialog.show();
 
                 final EditText editText= dialog.findViewById(R.id.dialog_edit_text);
+                final EditText subtext1 = dialog.findViewById(R.id.sub_text1);
+                final EditText subtext2 = dialog.findViewById(R.id.sub_text2);
                 Button bt_update = dialog.findViewById(R.id.bt_update);
+
                 editText.setText(sText);
+                subtext1.setText(sSubList.get(0));
+                subtext2.setText(sSubList.get(1));
 
                 bt_update.setOnClickListener(new View.OnClickListener(){
                     @Override
