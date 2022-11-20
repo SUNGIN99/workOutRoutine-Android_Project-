@@ -17,7 +17,6 @@ public class SelectWorkout_Adapter_grid extends RecyclerView.Adapter<SelectWorko
 
     Context context;
     ArrayList<Select_workoutItem> list;
-    private RoutineDB routineDB;
 
     public SelectWorkout_Adapter_grid(Context context, ArrayList<Select_workoutItem> list){
         super();

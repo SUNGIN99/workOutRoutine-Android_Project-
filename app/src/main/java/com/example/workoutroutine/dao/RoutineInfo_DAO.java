@@ -12,6 +12,10 @@ import java.util.List;
 public interface RoutineInfo_DAO {
     @Transaction
     @Query("SELECT * FROM Routine ORDER BY id ASC")
-    List<RoutineInfo_ItemLists> getRoutineInfo();
+    List<RoutineInfo_ItemLists> getRoutineInfoList();
+
+    @Transaction
+    @Query("SELECT * FROM Routine WHERE id = :id")
+    RoutineInfo_ItemLists getRoutineInfo(int id);
 
 }

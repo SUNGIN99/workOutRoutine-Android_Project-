@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workoutroutine.database.RoutineDB;
 import com.example.workoutroutine.model.WorkoutItem_Obj;
 
 import java.util.ArrayList;
@@ -20,10 +21,14 @@ public class NewRoutine_Adapter_list extends RecyclerView.Adapter<NewRoutine_Ada
     Context context;
     ArrayList<WorkoutItem_Obj> selected;
 
-    public NewRoutine_Adapter_list(Context context, ArrayList<WorkoutItem_Obj> selected) {
+    // <<22.11.18> routineDB 사용
+    RoutineDB routineDB;
+
+    public NewRoutine_Adapter_list(Context context, ArrayList<WorkoutItem_Obj> selected, RoutineDB routineDB) {
         super();
         this.context = context;
         this.selected = selected;
+        this.routineDB = routineDB;
     }
 
     @Override
@@ -31,7 +36,8 @@ public class NewRoutine_Adapter_list extends RecyclerView.Adapter<NewRoutine_Ada
         // <22.11.12-2> selected안에 들어있는 newRoutineItem들을 (순서, 이름, reps, sets)를 모두 설정해줌
         // EditText의 값이 변경되면 activity에서도 계속 사용해야 하기 때문에 addTextChangedListener를 이용해 텍스트 변화 리스너 이벤트 추가
         holder.id.setText(Integer.toString(position+1));
-        Log.d("workoutId:", Integer.toString(selected.get(position).getNumber()));
+        Log.d("(NewRoutine_Adapter_list.java) selected workouts: ", selected.get(position).toString());
+        //Log.d("workoutId:", Integer.toString(selected.get(position).getNumber()));
         holder.name.setText(selected.get(position).getWorkoutName());
 
         holder.reps.addTextChangedListener(new TextWatcher() {
@@ -45,7 +51,9 @@ public class NewRoutine_Adapter_list extends RecyclerView.Adapter<NewRoutine_Ada
 
             @Override
             public void afterTextChanged(Editable s) {
-                selected.get(position).setReps(Integer.parseInt(s.toString()));
+                int nreps = Integer.parseInt(s.toString());
+                selected.get(position).setReps(nreps);
+                routineDB.workoutItemDao().updateReps(selected.get(position).getNumber(), nreps);
             }
         });
         holder.sets.addTextChangedListener(new TextWatcher() {
@@ -59,7 +67,9 @@ public class NewRoutine_Adapter_list extends RecyclerView.Adapter<NewRoutine_Ada
 
             @Override
             public void afterTextChanged(Editable s) {
-                selected.get(position).setSets(Integer.parseInt(s.toString()));
+                int nsets = Integer.parseInt(s.toString());
+                selected.get(position).setSets(nsets);
+                routineDB.workoutItemDao().updateSets(selected.get(position).getNumber(), nsets);
             }
         });
     }

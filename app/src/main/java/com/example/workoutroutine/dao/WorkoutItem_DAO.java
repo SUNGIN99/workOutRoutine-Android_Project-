@@ -23,9 +23,19 @@ public interface WorkoutItem_DAO {
     @Query("SELECT * FROM workOutInfo ORDER BY number ASC")
     List<WorkoutItem_Obj> getRoutineWorkoutList ();
 
-    @Query("SELECT * FROM workOutInfo WHERE number = :name")
+    @Query("SELECT * FROM workOutInfo WHERE workoutName = :name")
     WorkoutItem_Obj getWorkOutByName(String name);
 
-    @Query("DELETE FROM workOutInfo WHERE number = :name")
+    @Query("DELETE FROM workOutInfo WHERE workoutName = :name")
     void deleteWorkOutByName(String name);
+
+    @Query("SELECT * FROM workOutInfo WHERE routineIdx = :parentid")
+    List<WorkoutItem_Obj> getRoutineWorkoutListBy_routineIdx(int parentid);
+
+    @Query("UPDATE workOutInfo SET reps = :reps WHERE number = :number")
+    void updateReps(int number, int reps);
+
+    @Query("UPDATE workOutInfo SET sets = :sets  WHERE number = :number")
+    void updateSets(int number, int sets);
+
 }

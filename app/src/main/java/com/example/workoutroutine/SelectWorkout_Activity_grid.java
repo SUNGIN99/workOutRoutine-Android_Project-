@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workoutroutine.database.RoutineDB;
 import com.example.workoutroutine.model.WorkoutItem_Obj;
 
 import java.util.ArrayList;
@@ -83,10 +84,22 @@ public class SelectWorkout_Activity_grid extends AppCompatActivity {
     ArrayList<WorkoutItem_Obj> selected = new ArrayList<>();
     Button selectComplete;
 
+    // <<22.11.18> RoutineDB 생성 후에 WorkoutItem_Obj 추가;
+    RoutineDB routineDB;
+    int parentId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_workout_recycler);
+
+        // <22.11.18>
+        Intent recv_intent = getIntent();
+        parentId = (int) recv_intent.getIntExtra("routineIdx", 0);
+        Log.d("Intent Recived routineIdx at SelectWorkout: ", Integer.toString(parentId));
+
+        // <22.11.18> RoutineDB할당
+        routineDB = RoutineDB.getInstance(getApplicationContext());
 
         // <22.11.10> 리싸이클러뷰, 어뎁터 할당
         recyclerView = findViewById(R.id.recyclerGridView);
@@ -97,8 +110,11 @@ public class SelectWorkout_Activity_grid extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int pos) {
                 TextView name = (TextView)v;
-                selected.add(new WorkoutItem_Obj((String) name.getText(), 0, 0));
-                Log.d("selected_routine:", String.valueOf(selected));
+                WorkoutItem_Obj workoutItem_obj = new WorkoutItem_Obj((String) name.getText(), 0, 0, parentId);
+                selected.add(workoutItem_obj);
+                routineDB.workoutItemDao().insert(workoutItem_obj);
+
+                Log.d("(SelectWorkout_Activity_grid) selected_routine:", String.valueOf(selected));
                 Toast.makeText(getApplicationContext(), name.getText(), Toast.LENGTH_SHORT).show();
             }
         });
