@@ -25,6 +25,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <activity android:name =".SelectWorkout_Activity_grid"/>
+        <activity android:name =".NewRoutine_Activity_list"/>
     </application>
 
 </manifest>
