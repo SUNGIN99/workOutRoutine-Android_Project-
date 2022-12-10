@@ -76,6 +76,11 @@ public class MainActivity extends AppCompatActivity{
                 routineAdapter = new Routine_Adapter(getApplicationContext(), insertedAllRoutineInfo, routineDB);
                 routineRecycler.setAdapter(routineAdapter);
             }
+            else if (resultCode == AppCompatActivity.RESULT_CANCELED) {
+                Log.d("Cancle" , "cancel");
+                NewRoutine_Obj notCompleteObj = routineDB.newRoutineDao().getLatestRoutine();
+                routineDB.newRoutineDao().deleteNewRoutineObj(notCompleteObj.getId());
+            }
         }
     }
 }

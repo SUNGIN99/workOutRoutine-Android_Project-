@@ -27,6 +27,9 @@ public interface NewRoutine_DAO {
     @Query("DELETE FROM Routine WHERE routineTitle = :name")
     void deleteNewRoutineObj(String name);
 
+    @Query("DELETE FROM Routine WHERE id = :id")
+    void deleteNewRoutineObj(int id);
+
     @Query("SELECT * FROM ROUTINE ORDER BY id DESC LIMIT 1")
     NewRoutine_Obj getLatestRoutine();
 

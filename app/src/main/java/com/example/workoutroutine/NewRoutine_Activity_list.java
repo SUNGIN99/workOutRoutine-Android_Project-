@@ -81,12 +81,11 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 routineTitle = String.valueOf(routineEditText.getText().toString());
-                newNewRoutineObj.setRoutineTitle(routineTitle);
-                routineDB.newRoutineDao().updatedRoutineTitle(routineTitle, parentId);
-
 
                 Log.d("whatthefuck:", String.valueOf(insertedWorkoutItemList));
                 if (!routineTitle.equals("")){
+                    newNewRoutineObj.setRoutineTitle(routineTitle);
+                    routineDB.newRoutineDao().updatedRoutineTitle(routineTitle, parentId);
                     Log.d("Title" , routineTitle);
 
                     for (WorkoutItem_Obj o : insertedWorkoutItemList){
@@ -111,9 +110,6 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
         routineButton.setOnClickListener(new View.OnClickListener(){ // <22.11.12> 루틴 생성 인텐트 및 startActivityForResult로 고른 루틴 결과 반환 받기
             @Override
             public void onClick(View v){
-                /*for (NewRoutine_Obj n : routineDB.newRoutineDao().getRoutineWorkoutList()){
-                    Log.d("nOBJList: ", Integer.toString(n.getId()));
-                }*/
 
                 Intent newRoutine = new Intent(getApplicationContext(), SelectWorkout_Activity_grid.class);
                 //<22.11.18>
