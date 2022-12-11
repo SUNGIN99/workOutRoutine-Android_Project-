@@ -24,6 +24,9 @@ public interface NewRoutine_DAO {
     @Query("SELECT * FROM Routine WHERE routineTitle = :name")
     NewRoutine_Obj getRoutineByName(String name);
 
+    @Query("SELECT * FROM Routine WHERE id = :id")
+    NewRoutine_Obj getRoutineById(int id);
+
     @Query("DELETE FROM Routine WHERE routineTitle = :name")
     void deleteNewRoutineObj(String name);
 
@@ -37,6 +40,6 @@ public interface NewRoutine_DAO {
     @Query("UPDATE ROUTINE SET routineTitle = :routineTitle WHERE id = :id")
     void updatedRoutineTitle(String routineTitle, int id);
 
-    @Query("UPDATE ROUTINE SET routineDate = :routineDate")
-    void updatedRoutineDate(String routineDate);
+    @Query("UPDATE ROUTINE SET routineDate = :routineDate WHERE id = :id")
+    void updatedRoutineDate(String routineDate, int id);
 }

@@ -1,4 +1,4 @@
-package com.example.workoutroutine;
+package com.example.workoutroutine.recyclerviewadapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.workoutroutine.database.RoutineDB;
+import com.example.workoutroutine.R;
 
 import java.util.ArrayList;
 
