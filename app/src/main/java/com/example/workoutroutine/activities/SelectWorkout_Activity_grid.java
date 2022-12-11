@@ -1,4 +1,4 @@
-package com.example.workoutroutine;
+package com.example.workoutroutine.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.workoutroutine.R;
+import com.example.workoutroutine.recyclerviewadapter.SelectWorkout_Adapter_grid;
+import com.example.workoutroutine.recyclerviewadapter.Select_workoutItem;
 import com.example.workoutroutine.database.RoutineDB;
 import com.example.workoutroutine.model.WorkoutItem_Obj;
 

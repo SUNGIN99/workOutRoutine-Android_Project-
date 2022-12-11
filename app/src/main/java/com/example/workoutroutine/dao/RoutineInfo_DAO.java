@@ -15,7 +15,13 @@ public interface RoutineInfo_DAO {
     List<RoutineInfo_ItemLists> getRoutineInfoList();
 
     @Transaction
+    @Query("SELECT * FROM Routine WHERE routineDate = :routineDate")
+    List<RoutineInfo_ItemLists> getRoutineInfoListbyDate(String routineDate);
+
+    @Transaction
     @Query("SELECT * FROM Routine WHERE id = :id")
     RoutineInfo_ItemLists getRoutineInfo(int id);
+
+
 
 }

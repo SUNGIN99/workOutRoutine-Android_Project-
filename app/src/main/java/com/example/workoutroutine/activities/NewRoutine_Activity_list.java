@@ -1,4 +1,4 @@
-package com.example.workoutroutine;
+package com.example.workoutroutine.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,26 +6,34 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.workoutroutine.recyclerviewadapter.NewRoutine_Adapter_list;
+import com.example.workoutroutine.R;
 import com.example.workoutroutine.database.RoutineDB;
 import com.example.workoutroutine.model.WorkoutItem_Obj;
 import com.example.workoutroutine.model.NewRoutine_Obj;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class NewRoutine_Activity_list extends AppCompatActivity {
-    private Button routineButton, makeButton; // newRoutine 모으기
+    private Button routineButton, makeButton, datePopup; // newRoutine 모으기
     private EditText routineEditText;
     private String routinedate, routineTitle;
+    private TextView setRoutineDate;
     // <22.11.18>
     private RoutineDB routineDB;
     int parentId;
@@ -44,6 +52,10 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
     LinearLayoutManager listLayoutManager_newRoutine;
     // adapter에 바인드할 리스트 = selected;
 
+
+    // <22.12.11> 데이트 Picker 다이얼로그
+    Calendar myCalendar;
+    DatePickerDialog popup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,22 +83,24 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
         routineRecycler.setLayoutManager(listLayoutManager_newRoutine);
         routineRecycler.setAdapter(newRoutineAdapter);
 
-        
+        // <22.12.11> 날짜선택 컴포넌트
+        datePopup = (Button)findViewById(R.id.DateDialog);
+        setRoutineDate = (TextView) findViewById(R.id.setRoutineDate);
+
         // <22.11.12-2> 루틴 타이틀 에디트 텍스트
         routineEditText = (EditText)findViewById(R.id.routineTitle2);
-        
+
         // <22.11.12-2> 루틴 생성 완료 버튼
         makeButton = (Button)findViewById(R.id.complete);
         makeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 routineTitle = String.valueOf(routineEditText.getText().toString());
-                newNewRoutineObj.setRoutineTitle(routineTitle);
-                routineDB.newRoutineDao().updatedRoutineTitle(routineTitle, parentId);
-
 
                 Log.d("whatthefuck:", String.valueOf(insertedWorkoutItemList));
                 if (!routineTitle.equals("")){
+                    newNewRoutineObj.setRoutineTitle(routineTitle);
+                    routineDB.newRoutineDao().updatedRoutineTitle(routineTitle, parentId);
                     Log.d("Title" , routineTitle);
 
                     for (WorkoutItem_Obj o : insertedWorkoutItemList){
@@ -111,9 +125,6 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
         routineButton.setOnClickListener(new View.OnClickListener(){ // <22.11.12> 루틴 생성 인텐트 및 startActivityForResult로 고른 루틴 결과 반환 받기
             @Override
             public void onClick(View v){
-                /*for (NewRoutine_Obj n : routineDB.newRoutineDao().getRoutineWorkoutList()){
-                    Log.d("nOBJList: ", Integer.toString(n.getId()));
-                }*/
 
                 Intent newRoutine = new Intent(getApplicationContext(), SelectWorkout_Activity_grid.class);
                 //<22.11.18>
@@ -121,6 +132,35 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
                 startActivityForResult(newRoutine, 100); // 운동 선택 리퀘스트코드 = 100
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        // <22.12.11> 루틴 날짜 수정
+        super.onStart();
+        myCalendar = Calendar.getInstance();
+
+        DatePickerDialog.OnDateSetListener myDatePicker = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+
+
+                routineDB.newRoutineDao().updatedRoutineDate((String) setRoutineDate.getText(), parentId);
+            }
+        };
+
+        datePopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("selected Date", "fuck");
+                new DatePickerDialog(NewRoutine_Activity_list.this, myDatePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
     }
 
     @Override
@@ -154,5 +194,13 @@ public class NewRoutine_Activity_list extends AppCompatActivity {
     String newRoutineDate(){
         SimpleDateFormat formatType = new SimpleDateFormat("yyyy-MM-dd");
         return formatType.format(new Date());
+    }
+
+    private void updateLabel() {
+        String myFormat = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
+
+        TextView et_date = (TextView) findViewById(R.id.setRoutineDate);
+        et_date.setText(sdf.format(myCalendar.getTime()));
     }
 }
