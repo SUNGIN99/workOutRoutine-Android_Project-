@@ -67,6 +67,16 @@ public class CalendarActivity extends AppCompatActivity {
 
                 RoutineInfobyDate = (ArrayList<RoutineInfo_ItemLists>) routineDB.routineInfoDao().getRoutineInfoListbyDate(selectedDate);
                 routineAdapter = new Routine_Adapter(getApplicationContext(), RoutineInfobyDate, routineDB, selectedDate);
+                routineAdapter.setOnItemClickListener(new Routine_Adapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int id, int pos) {
+                        Log.d("selected Pos:", String.valueOf(id));
+                        Intent intent = new Intent(getApplicationContext(), OldRoutine_Activity_list.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    }
+                });
+
                 routineRecycler.setAdapter(routineAdapter);
 
                 routineAdapter.notifyDataSetChanged();
@@ -87,10 +97,8 @@ public class CalendarActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), OldRoutine_Activity_list.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
-
             }
         });
-        routineRecycler.setAdapter(routineAdapter);
     }
 
     /*private void backButton() {

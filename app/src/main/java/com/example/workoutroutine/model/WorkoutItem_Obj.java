@@ -16,13 +16,6 @@ import java.io.Serializable;
         ))
 public class WorkoutItem_Obj implements Serializable {
 
-    public WorkoutItem_Obj(String workoutName, int reps, int sets, int routineIdx) {
-        this.workoutName = workoutName;
-        this.reps = reps;
-        this.sets = sets;
-        this.routineIdx = routineIdx;
-    }
-
     @PrimaryKey(autoGenerate = true)
     private int number; // id
 
@@ -37,6 +30,13 @@ public class WorkoutItem_Obj implements Serializable {
 
     @ColumnInfo(name = "routineIdx")
     private int routineIdx;
+
+    public WorkoutItem_Obj(String workoutName, int reps, int sets, int routineIdx) {
+        this.workoutName = workoutName;
+        this.reps = reps;
+        this.sets = sets;
+        this.routineIdx = routineIdx;
+    }
 
     @Override
     public String toString(){
